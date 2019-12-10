@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weather Forecast</title>
+    <link rel="stylesheet" href="./css/weather.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="navbar-brand">
+            <h1>Weather Forecast</h1>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-3 col-lg-4" style="background: #F8F9FA;">
+                <div class="mb-2"></div>
+                <h4>Search for a city:</h4>
+                <input id="searchTxt" type="text" placeholder="Search.." name="search">
+                <button id="searchBtn" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                <div class="card" id="previousSearchKeywords"></div>
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-9 col-lg-8">
+                <div class="mb-2"></div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title"><span id="todayCity"></span></h3>
+                        <div>Temperature: <span id="todayTemp"></span> °C</div>
+                        <div>Humidity: <span id="todayHumidity"></span> %</div>
+                        <div>Wind Speed: <span id="todayWind"></span> MPH</div>
+                        <div>UV Index: <span id="todayUV"></span></div>
+                    </div>
+                </div>
+                <div class="mb-4"></div>
+                <h4>5-Day Forecast:</h4>
+                <div class="card-deck">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <div id="1day" class="card-title">
+                            </div>
+                            <div><span id="1dayIcon"></span></div>
+                            <div>Temp: <span id="1dayTemp"></span> °C</div>
+                            <div>Humidity: <span id="1dayHumidity"></span> %</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <div id="2day" class="card-title">
+                            </div>
+                            <div><span id="2dayIcon"></span></div>
+                            <div>Temp: <span id="2dayTemp"></span> °C</div>
+                            <div>Humidity: <span id="2dayHumidity"></span> %</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <div id="3day" class="card-title">
+                            </div>
+                            <div><span id="3dayIcon"></span></div>
+                            <div>Temp: <span id="3dayTemp"></span> °C</div>
+                            <div>Humidity: <span id="3dayHumidity"></span> %</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <div id="4day" class="card-title">
+                            </div>
+                            <div><span id="4dayIcon"></span></div>
+                            <div>Temp: <span id="4dayTemp"></span> °C</div>
+                            <div>Humidity: <span id="4dayHumidity"></span> %</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <div id="5day" class="card-title">
+                            </div>
+                            <div><span id="5dayIcon"></span></div>
+                            <div>Temp: <span id="5dayTemp"></span> °C</div>
+                            <div>Humidity: <span id="5dayHumidity"></span> %</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="./js/weather.js"></script>
+
+</html>
