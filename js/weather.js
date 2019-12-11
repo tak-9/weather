@@ -182,7 +182,7 @@ function getCurrentWeather(city, lat, lon) {
         var ctemp = Math.floor(ktemp - 273.15);
         var weather = response.weather[0].description;
         var icon = response.weather[0].icon;
-        var iconURL = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+        var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
         var humidity = response.main.humidity;
         var wind = response.wind.speed;
         var longitude = response.coord.lon;
@@ -205,7 +205,7 @@ function getCurrentWeather(city, lat, lon) {
         // console.log("formattedLocalDate: ", formattedLocalDate);
 
         // Query for UV
-        var queryUvURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + APIKEY + "&lat=" + latitude + "&lon=" + longitude;
+        var queryUvURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKEY + "&lat=" + latitude + "&lon=" + longitude;
         // console.log(queryUvURL);
 
         $.ajax({
