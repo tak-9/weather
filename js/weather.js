@@ -250,9 +250,9 @@ function renderTodayWeather(city, formattedLocalDate, iconURL, ctemp, humidity, 
 function getFiveDaysFocast(city, lat, lon) {
     var queryFocastURL;
     if (city !== null) { 
-        queryFocastURL = "http://api.openweathermap.org/data/2.5/forecast?appid=" + APIKEY + "&q=" + city;
+        queryFocastURL = "https://api.openweathermap.org/data/2.5/forecast?appid=" + APIKEY + "&q=" + city;
     } else if (lat !== null && lon !== null) {
-        queryFocastURL = "http://api.openweathermap.org/data/2.5/forecast?appid=" + APIKEY + "&lat=" + lat + "&lon=" + lon;       
+        queryFocastURL = "https://api.openweathermap.org/data/2.5/forecast?appid=" + APIKEY + "&lat=" + lat + "&lon=" + lon;       
     }
 
     console.log(queryFocastURL);
@@ -272,7 +272,7 @@ function getFiveDaysFocast(city, lat, lon) {
             var ctemp = Math.floor(ktemp - 273.15);
             var weather = response.list[i].weather[0].description;
             var icon = response.list[i].weather[0].icon;
-            var iconURL = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+            var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
             var humidity = response.list[i].main.humidity;
             var gmtEpoc = response.list[i].dt;
             var timezone = response.city.timezone;
