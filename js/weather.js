@@ -4,23 +4,32 @@ var localStorageKey = "lskeywords";
 
 init();
 function init(){
-    var city = getLastSearchedCity(); 
-    getCurrentWeather(city);
-    getFiveDaysFocast(city);
-    renderSearchKeywords();    
+    var city = getLastSearchedCity();
+    console.log(city);
+    // city is empty when history localStorage is empty. 
+    if (city == "empty") {
+        console.log("city undefined");
+        searchByGeoLocation();
+    } else {
+        getCurrentWeather(city, null, null);
+        getFiveDaysFocast(city, null, null);
+        renderSearchKeywords();    
+    }
 }
 
 function getLastSearchedCity() {
-    var city = "Sydney";// City to display by default
+    // var city = "Sydney";// City to display by default
+    var city = "empty";
     searchKeywords = JSON.parse(localStorage.getItem(localStorageKey));
     if (Array.isArray(searchKeywords) && searchKeywords.length > 0) {
         // When searchKeywords is null, error occurs at this line.
         city = searchKeywords[searchKeywords.length - 1];
-    }
+    } 
     return city;
 }
 
 function renderSearchKeywords() {
+    // console.log("renderSearchKeywords");
     searchKeywords = JSON.parse(localStorage.getItem(localStorageKey));
     // console.log(searchKeywords);
     if (Array.isArray(searchKeywords) && searchKeywords.length > 0) {
@@ -47,10 +56,9 @@ $("#previousSearchKeywords").on("click", ".city-list", function () {
     var city = $(this).text();
     clear();
     $("#searchTxt").val(city);
-    getCurrentWeather(city);
-    getFiveDaysFocast(city);
+    getCurrentWeather(city, null, null);
+    getFiveDaysFocast(city, null, null);
     addCityToLocalStorage(city)
-    renderSearchKeywords();
 });
 
 // Perform search when Enter key pressed
@@ -66,16 +74,51 @@ $("#searchBtn").on("click", searchWeather);
 function searchWeather() {
     var city = $("#searchTxt").val().trim();
     console.log(city);
-    addCityToLocalStorage(city);
     // console.log("searchKeywords: ", searchKeywords);
     clear();
-    getCurrentWeather(city);
-    getFiveDaysFocast(city);
-    renderSearchKeywords();
-}
+    getCurrentWeather(city, null, null);
+    getFiveDaysFocast(city, null, null);
+    addCityToLocalStorage(city);
+};
 
+// Perform search based on current location when location button is clicked
+$("#locationBtn").on("click", searchByGeoLocation);
+
+function searchByGeoLocation(){
+    // console.log("locatinBtn clicked");
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(searchByGeoLocationHandler, showError);
+    } else { 
+        $("#errorMessage").text("Geolocation is not supported by this browser.");
+    }
+};
+
+function searchByGeoLocationHandler(position) {
+    console.log("Latitude: " + position.coords.latitude + "  Longitude: " + position.coords.longitude);
+    clear();
+    getCurrentWeather(null, position.coords.latitude, position.coords.longitude);
+    getFiveDaysFocast(null, position.coords.latitude, position.coords.longitude);
+};
+
+function showError(error) {
+    switch(error.code) {
+      case error.PERMISSION_DENIED:
+        $("#errorMessage").text("User denied the request for Geolocation.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        $("#errorMessage").text("Location information is unavailable.");
+        break;
+      case error.TIMEOUT:
+        $("#errorMessage").text("The request to get user location timed out.");
+        break;
+      case error.UNKNOWN_ERROR:
+        $("#errorMessage").text("An unknown error occurred.");
+        break;
+    }
+};
 
 function addCityToLocalStorage(city){
+    console.log("addCityToLocalStorage");
     if (Array.isArray(searchKeywords) && searchKeywords.length > 0) {
         // TODO: Implement ignore case
         var pos = searchKeywords.indexOf(city); 
@@ -92,6 +135,7 @@ function addCityToLocalStorage(city){
         skw[0] = city;
         localStorage.setItem(localStorageKey, JSON.stringify(skw));
     }
+    renderSearchKeywords();
 }
 
 function clear() {
@@ -113,8 +157,17 @@ function clear() {
     $("#previousSearchKeywords").empty();
 }
 
-function getCurrentWeather(city) {
-    var queryWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKEY;
+function getCurrentWeather(city, lat, lon) {
+    //console.log("getCurrentWeather");
+    var queryWeatherURL;
+    var searchByCity = false;
+    if (city!==null) { 
+        searchByCity = true;
+        queryWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKEY;
+    } else if ( lat!==null && lon !== null ){
+        searchByCity = false;
+        queryWeatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + APIKEY;
+    } 
     //console.log(queryWeatherURL);
     $.ajax({
         url: queryWeatherURL,
@@ -151,6 +204,7 @@ function getCurrentWeather(city) {
         // console.log("Timezone: ", timezone);
         // console.log("formattedLocalDate: ", formattedLocalDate);
 
+        // Query for UV
         var queryUvURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + APIKEY + "&lat=" + latitude + "&lon=" + longitude;
         // console.log(queryUvURL);
 
@@ -165,6 +219,10 @@ function getCurrentWeather(city) {
             renderTodayWeather(city, formattedLocalDate, iconURL, ctemp, humidity, wind, uv);
         });
 
+        // Update history if searched by location 
+        if (searchByCity==false) { 
+            addCityToLocalStorage(city);
+        }
     })
 }
 
@@ -189,9 +247,15 @@ function renderTodayWeather(city, formattedLocalDate, iconURL, ctemp, humidity, 
     $("#todayUV").text(uv);
 };
 
-function getFiveDaysFocast(city) {
-    var queryFocastURL = "http://api.openweathermap.org/data/2.5/forecast?appid=" + APIKEY + "&q=" + city;
-    //console.log(queryFocastURL);
+function getFiveDaysFocast(city, lat, lon) {
+    var queryFocastURL;
+    if (city !== null) { 
+        queryFocastURL = "http://api.openweathermap.org/data/2.5/forecast?appid=" + APIKEY + "&q=" + city;
+    } else if (lat !== null && lon !== null) {
+        queryFocastURL = "http://api.openweathermap.org/data/2.5/forecast?appid=" + APIKEY + "&lat=" + lat + "&lon=" + lon;       
+    }
+
+    console.log(queryFocastURL);
     $.ajax({
         url: queryFocastURL,
         method: "GET"
