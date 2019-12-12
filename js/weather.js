@@ -154,6 +154,9 @@ function clear() {
     $("#todayWind").empty();
     $("#todayUV").empty();
 
+    // Clear error message
+    $("#errorMessage").empty();
+
     // Clear 5 days forcast 
     for (var day = 1; day < 6; day++) {
         $("#" + day + "day").empty();
@@ -166,73 +169,81 @@ function clear() {
 }
 
 function getCurrentWeather(city, lat, lon) {
-    //console.log("getCurrentWeather");
+    console.log("getCurrentWeather");
     var queryWeatherURL;
     var searchByCity = false;
-    if (city!==null) { 
+    if (city !== null) {
         searchByCity = true;
         queryWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKEY;
-    } else if ( lat!==null && lon !== null ){
+    } else if (lat !== null && lon !== null) {
         searchByCity = false;
         queryWeatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + APIKEY;
-    } 
+    }
     //console.log(queryWeatherURL);
     $.ajax({
         url: queryWeatherURL,
         method: "GET"
-    }).then(function (response) {
-        //console.log("Weather JSON: ", response);
-        var city = response.name;
-        // Kelvin to Fahrenheit: F = (K - 273.15) * 1.80 + 32
-        // Kelvin to Celsius: C = 0K -273.15
-        var ktemp = response.main.temp;
-        //var ftemp =  (ktemp - 273.15) * 1.80 + 32;
-        var ctemp = Math.floor(ktemp - 273.15);
-        var weather = response.weather[0].description;
-        var icon = response.weather[0].icon;
-        var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
-        var humidity = response.main.humidity;
-        var wind = response.wind.speed;
-        var longitude = response.coord.lon;
-        var latitude = response.coord.lat;
-        var gmtEpoc = response.dt;
-        var timezone = response.timezone; // unit is second
-        var formattedLocalDate = getFormattedLocalDate(gmtEpoc, timezone);
+    }).then(
+        function (response) {
+            // Successful case
+            //console.log("Weather JSON: ", response);
+            var city = response.name;
+            // Kelvin to Fahrenheit: F = (K - 273.15) * 1.80 + 32
+            // Kelvin to Celsius: C = 0K -273.15
+            var ktemp = response.main.temp;
+            //var ftemp =  (ktemp - 273.15) * 1.80 + 32;
+            var ctemp = Math.floor(ktemp - 273.15);
+            var weather = response.weather[0].description;
+            var icon = response.weather[0].icon;
+            var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
+            var humidity = response.main.humidity;
+            var wind = response.wind.speed;
+            var longitude = response.coord.lon;
+            var latitude = response.coord.lat;
+            var gmtEpoc = response.dt;
+            var timezone = response.timezone; // unit is second
+            var formattedLocalDate = getFormattedLocalDate(gmtEpoc, timezone);
 
-        // console.log("City: ", city);
-        // console.log("Weather: ", weather);
-        // console.log("Icon: ", icon);
-        // console.log("IconURL: ", iconURL);
-        // console.log("Celsius: ", ctemp, "C");
-        // console.log("Humidity: ", humidity, "%");
-        // console.log("Wind Speed: ", wind, " m/s");
-        // console.log("Longitude: ", longitude);
-        // console.log("Latitude: ", latitude);
-        // console.log("GMT Epoc: ", gmtEpoc);
-        // console.log("Timezone: ", timezone);
-        // console.log("formattedLocalDate: ", formattedLocalDate);
+            // console.log("City: ", city);
+            // console.log("Weather: ", weather);
+            // console.log("Icon: ", icon);
+            // console.log("IconURL: ", iconURL);
+            // console.log("Celsius: ", ctemp, "C");
+            // console.log("Humidity: ", humidity, "%");
+            // console.log("Wind Speed: ", wind, " m/s");
+            // console.log("Longitude: ", longitude);
+            // console.log("Latitude: ", latitude);
+            // console.log("GMT Epoc: ", gmtEpoc);
+            // console.log("Timezone: ", timezone);
+            // console.log("formattedLocalDate: ", formattedLocalDate);
 
-        // Query for UV
-        var queryUvURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKEY + "&lat=" + latitude + "&lon=" + longitude;
-        // console.log(queryUvURL);
+            // Query for UV
+            var queryUvURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKEY + "&lat=" + latitude + "&lon=" + longitude;
+            // console.log(queryUvURL);
 
-        $.ajax({
-            url: queryUvURL,
-            method: "GET",
-            aync: false
-        }).then(function (response) {
-            //console.log("UV JSON: ", response);
-            var uv = response.value;
-            //console.log("UV: " + uv);
-            renderTodayWeather(city, formattedLocalDate, iconURL, ctemp, humidity, wind, uv);
-        });
+            $.ajax({
+                url: queryUvURL,
+                method: "GET",
+                aync: false
+            }).then(function (res) {
+                //console.log("UV JSON: ", res);
+                var uv = res.value;
+                //console.log("UV: " + uv);
+                renderTodayWeather(city, formattedLocalDate, iconURL, ctemp, humidity, wind, uv);
+            })
+            // Update history if searched by location 
+            if (searchByCity == false) {
+                addCityToLocalStorage(city);
+            }
+        }, //end of success case 
 
-        // Update history if searched by location 
-        if (searchByCity==false) { 
-            addCityToLocalStorage(city);
+        function (response) {
+            // Failure case
+            $("#errorMessage").text(response.responseJSON.message);
         }
-    })
-}
+    ) // end of Ajax     
+};
+
 
 function getFormattedLocalDate(gmtEpoc, timezone) {
     var localTime = moment.unix(gmtEpoc).utcOffset(timezone / 60);
@@ -263,7 +274,7 @@ function getFiveDaysFocast(city, lat, lon) {
         queryFocastURL = "https://api.openweathermap.org/data/2.5/forecast?appid=" + APIKEY + "&lat=" + lat + "&lon=" + lon;       
     }
 
-    console.log(queryFocastURL);
+    //console.log(queryFocastURL);
     $.ajax({
         url: queryFocastURL,
         method: "GET"
