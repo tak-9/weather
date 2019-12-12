@@ -19,9 +19,13 @@ Error message is displaed when the city is not found.
 
 ## Credit 
 Open Weather API https://openweathermap.org/api
+
 Moment.js https://momentjs.com/
+
 jQuery https://jquery.com/
+
 Bootstrap https://getbootstrap.com/
+
 Font awesome 
 
 ## Screen Capture
