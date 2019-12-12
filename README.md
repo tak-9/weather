@@ -25,4 +25,4 @@ Font awesome
 
 ## Screen Capture
 
-<img src="screencapture.png" width="200px">
+<img src="screencapture.png" width="400px">

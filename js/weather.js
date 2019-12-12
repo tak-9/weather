@@ -45,6 +45,8 @@ function renderSearchKeywords() {
             li.text(searchKeywords[i]);
             ulEl.append(li);
         }
+    } else {
+        $("#previousSearchKeywords").empty();
     }
 };
 
@@ -87,7 +89,7 @@ $("#locationBtn").on("click", searchByGeoLocation);
 function searchByGeoLocation(){
     // console.log("locatinBtn clicked");
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(searchByGeoLocationHandler, showError);
+        navigator.geolocation.getCurrentPosition(searchByGeoLocationHandler, showGeoLocationError);
     } else { 
         $("#errorMessage").text("Geolocation is not supported by this browser.");
     }
@@ -100,7 +102,13 @@ function searchByGeoLocationHandler(position) {
     getFiveDaysFocast(null, position.coords.latitude, position.coords.longitude);
 };
 
-function showError(error) {
+$("#trashBtn").on("click", function(){
+    console.log("trashbtn clicked");
+    localStorage.removeItem(localStorageKey);
+    renderSearchKeywords();    
+});
+
+function showGeoLocationError(error) {
     switch(error.code) {
       case error.PERMISSION_DENIED:
         $("#errorMessage").text("User denied the request for Geolocation.");
