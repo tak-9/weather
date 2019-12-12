@@ -240,6 +240,9 @@ function getCurrentWeather(city, lat, lon) {
         function (response) {
             // Failure case
             $("#errorMessage").text(response.responseJSON.message);
+            if (response.responseJSON.cod == "404"){
+                $("#todayCity").text("City not found!");
+            }
         }
     ) // end of Ajax     
 };

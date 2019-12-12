@@ -11,6 +11,7 @@ https://tak-9.github.io/weather/
 The weather for the current location is displayed, if you allow it.
 
 3. Enter a city name in the text field and click icon (or press enter key) to search.  
+Error message is displaed when the city is not found.
 
 4. Click the location icon to detect the current location and search. 
 
