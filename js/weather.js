@@ -5,10 +5,10 @@ var localStorageKey = "lskeywords";
 init();
 function init(){
     var city = getLastSearchedCity();
-    console.log(city);
+    // console.log(city);
     // city is empty when history localStorage is empty. 
     if (city == "empty") {
-        console.log("city undefined");
+        // console.log("city undefined");
         searchByGeoLocation();
     } else {
         getCurrentWeather(city, null, null);
@@ -75,7 +75,7 @@ $("#searchTxt").on("keypress", function () {
 $("#searchBtn").on("click", searchWeather);
 function searchWeather() {
     var city = $("#searchTxt").val().trim();
-    console.log(city);
+    // console.log(city);
     // console.log("searchKeywords: ", searchKeywords);
     clear();
     getCurrentWeather(city, null, null);
@@ -87,19 +87,22 @@ function searchWeather() {
 $("#locationBtn").on("click", searchByGeoLocation);
 
 function searchByGeoLocation(){
-    // console.log("locatinBtn clicked");
+    // console.log("searchByGeoLocation() begin");
+    $("#loadingTodayWeather").show(); 
     if (navigator.geolocation) {
+        clear();
         navigator.geolocation.getCurrentPosition(searchByGeoLocationHandler, showGeoLocationError);
     } else { 
         $("#errorMessage").text("Geolocation is not supported by this browser.");
     }
+    // console.log("searchByGeoLocation() begin");
 };
 
 function searchByGeoLocationHandler(position) {
-    console.log("Latitude: " + position.coords.latitude + "  Longitude: " + position.coords.longitude);
-    clear();
+    // console.log("Latitude: " + position.coords.latitude + "  Longitude: " + position.coords.longitude);
     getCurrentWeather(null, position.coords.latitude, position.coords.longitude);
     getFiveDaysFocast(null, position.coords.latitude, position.coords.longitude);
+    $("#loadingTodayWeather").hide; 
 };
 
 $("#trashBtn").on("click", function(){
@@ -169,7 +172,7 @@ function clear() {
 }
 
 function getCurrentWeather(city, lat, lon) {
-    console.log("getCurrentWeather");
+    // console.log("getCurrentWeather");
     var queryWeatherURL;
     var searchByCity = false;
     if (city !== null) {
@@ -180,11 +183,13 @@ function getCurrentWeather(city, lat, lon) {
         queryWeatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + APIKEY;
     }
     //console.log(queryWeatherURL);
+    $("#loadingTodayWeather").show(); 
     $.ajax({
         url: queryWeatherURL,
         method: "GET"
     }).then(
         function (response) {
+            $("#loadingTodayWeather").hide(); 
             // Successful case
             //console.log("Weather JSON: ", response);
             var city = response.name;
