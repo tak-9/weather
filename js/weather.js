@@ -60,7 +60,6 @@ $("#previousSearchKeywords").on("click", ".city-list", function () {
     $("#searchTxt").val(city);
     getCurrentWeather(city, null, null);
     getFiveDaysFocast(city, null, null);
-    addCityToLocalStorage(city)
 });
 
 // Perform search when Enter key pressed
@@ -80,7 +79,6 @@ function searchWeather() {
     clear();
     getCurrentWeather(city, null, null);
     getFiveDaysFocast(city, null, null);
-    addCityToLocalStorage(city);
 };
 
 // Perform search based on current location when location button is clicked
@@ -129,11 +127,17 @@ function showGeoLocationError(error) {
 };
 
 function addCityToLocalStorage(city){
-    console.log("addCityToLocalStorage");
+    //console.log("addCityToLocalStorage");
+
     if (Array.isArray(searchKeywords) && searchKeywords.length > 0) {
-        // TODO: Implement ignore case
-        var pos = searchKeywords.indexOf(city); 
-        console.log("pos:", pos);
+        // Ignore case
+        var searchKeywordsLower = new Array();
+        for (var i=0; i<searchKeywords.length; i++){
+            searchKeywordsLower[i] = searchKeywords[i].toLowerCase();
+        }
+    
+        var pos = searchKeywordsLower.indexOf(city.toLowerCase()); 
+        // console.log("pos:", pos);
         // If same city name exists in localStorage, remove it before adding the new one.
         if (pos !== -1){
             searchKeywords.splice(pos,1); // Remove duplicate
@@ -191,7 +195,7 @@ function getCurrentWeather(city, lat, lon) {
         function (response) {
             $("#loadingTodayWeather").hide(); 
             // Successful case
-            //console.log("Weather JSON: ", response);
+            console.log("Weather JSON: ", response);
             var city = response.name;
             // Kelvin to Fahrenheit: F = (K - 273.15) * 1.80 + 32
             // Kelvin to Celsius: C = 0K -273.15
@@ -236,14 +240,12 @@ function getCurrentWeather(city, lat, lon) {
                 //console.log("UV: " + uv);
                 renderTodayWeather(city, formattedLocalDate, iconURL, ctemp, humidity, wind, uv);
             })
-            // Update history if searched by location 
-            if (searchByCity == false) {
-                addCityToLocalStorage(city);
-            }
+            addCityToLocalStorage(city);
         }, //end of success case 
 
         function (response) {
             // Failure case
+            $("#loadingTodayWeather").hide(); 
             $("#errorMessage").text(response.responseJSON.message);
             if (response.responseJSON.cod == "404"){
                 $("#todayCity").text("City not found!");
