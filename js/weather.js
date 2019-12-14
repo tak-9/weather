@@ -11,9 +11,9 @@ function init(){
         // console.log("city undefined");
         searchByGeoLocation();
     } else {
+        clear();
         getCurrentWeather(city, null, null);
         getFiveDaysFocast(city, null, null);
-        renderSearchKeywords();    
     }
 }
 
@@ -195,7 +195,7 @@ function getCurrentWeather(city, lat, lon) {
         function (response) {
             $("#loadingTodayWeather").hide(); 
             // Successful case
-            console.log("Weather JSON: ", response);
+            // console.log("Weather JSON: ", response);
             var city = response.name;
             // Kelvin to Fahrenheit: F = (K - 273.15) * 1.80 + 32
             // Kelvin to Celsius: C = 0K -273.15
@@ -206,7 +206,7 @@ function getCurrentWeather(city, lat, lon) {
             var icon = response.weather[0].icon;
             var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
             var humidity = response.main.humidity;
-            var wind = response.wind.speed;
+            var wind = (response.wind.speed * 1.609).toFixed(1);
             var longitude = response.coord.lon;
             var latitude = response.coord.lat;
             var gmtEpoc = response.dt;
@@ -250,6 +250,7 @@ function getCurrentWeather(city, lat, lon) {
             if (response.responseJSON.cod == "404"){
                 $("#todayCity").text("City not found!");
             }
+            renderSearchKeywords();
         }
     ) // end of Ajax     
 };
