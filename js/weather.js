@@ -75,7 +75,6 @@ $("#searchBtn").on("click", searchWeather);
 function searchWeather() {
     var city = $("#searchTxt").val().trim();
     // console.log(city);
-    // console.log("searchKeywords: ", searchKeywords);
     clear();
     getCurrentWeather(city, null, null);
     getFiveDaysFocast(city, null, null);
@@ -178,12 +177,9 @@ function clear() {
 function getCurrentWeather(city, lat, lon) {
     // console.log("getCurrentWeather");
     var queryWeatherURL;
-    var searchByCity = false;
     if (city !== null) {
-        searchByCity = true;
         queryWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKEY;
     } else if (lat !== null && lon !== null) {
-        searchByCity = false;
         queryWeatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + APIKEY;
     }
     //console.log(queryWeatherURL);
