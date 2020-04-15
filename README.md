@@ -1,33 +1,35 @@
-# Weather Forecast 
-
-## Description 
+# Weather Forecast :sunny: :cloud: :umbrella: :zap: :snowman:
 This is a weather dashboard application with search functionality to find current weather conditions and the future weather outlook for multiple cities.
 
-## Usage
-1. Open this URL in your web browswer. 
+## Live demo
 https://tak-9.github.io/weather/
 
-2. The browswer displays the pop-up to request geolocation permission. 
-The weather for the current location is displayed, if you allow it.
+
+<img src="screencapture.png" width="850px">
+
+
+## Usage
+1. Open the above URL in your web browswer. 
+
+2. The browswer displays the pop-up window requesting geolocation permission. 
+Once the geolocation permission is granted, the weather forcast for the current location is displayed.
 
 3. Enter a city name in the text field and click icon (or press enter key) to search.  
-Error message is displaed when the city is not found.
+   Error message is displaed when the city is not found.
 
 4. Click the location icon to detect the current location and search. 
 
 5. The search keywords are kept in the history box. Clicking the city name in history to search for weather. 
 
+6. Click trash icon to clear search history.
+
+## Technolgies
+Following technologies are used for this application.
+
+* HTML, CSS, [Bootstrap](https://getbootstrap.com/), JavaScript, [jQuery](https://jquery.com/), [Moment.js](https://momentjs.com/)
+
+
 ## Credit 
-Open Weather API https://openweathermap.org/api
+* [Open Weather](https://openweathermap.org/api) API for providing real-time weather forecast data.
 
-Moment.js https://momentjs.com/
-
-jQuery https://jquery.com/
-
-Bootstrap https://getbootstrap.com/
-
-Font awesome 
-
-## Screen Capture
-
-<img src="screencapture.png" width="400px">
+* [Font awesome](https://fontawesome.com/) for providing icons.
