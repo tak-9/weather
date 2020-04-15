@@ -30,6 +30,6 @@ Following technologies are used for this application.
 
 
 ## Credit 
-[Open Weather](https://openweathermap.org/api) API for providing real-time weather forecast data.
+* [Open Weather](https://openweathermap.org/api) API for providing real-time weather forecast data.
 
-[Font awesome](https://fontawesome.com/) for providing icons.
+* [Font awesome](https://fontawesome.com/) for providing icons.
