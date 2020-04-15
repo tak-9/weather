@@ -26,7 +26,7 @@ https://tak-9.github.io/weather/
 ## Technolgies
 Following technologies are used for this application.
 
-* HTML, CSS, [Bootstrap](https://getbootstrap.com/), JavaScript, [jQuery](https://jquery.com/), [Moment.js](https://momentjs.com/)
+* HTML5, [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), CSS, [Bootstrap](https://getbootstrap.com/), JavaScript, [jQuery](https://jquery.com/), [Moment.js](https://momentjs.com/)
 
 
 ## Credit 
