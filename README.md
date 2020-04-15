@@ -13,7 +13,7 @@ https://tak-9.github.io/weather/
 
 2. The browswer displays the pop-up window requesting geolocation permission. 
 Once the geolocation permission is granted, the weather forcast for the current location is displayed.
-<img src="./readme/geolocation.png" width="400px">
+... <img src="./readme/geolocation.png" width="400px">
 
 3. Enter a city name in the text field and click icon (or press enter key) to search.  
    Error message is displaed when the city is not found.
