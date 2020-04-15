@@ -21,12 +21,12 @@ Once the geolocation permission is granted, the weather forcast for the current 
 
 5. The search keywords are kept in the history box. Clicking the city name in history to search for weather. 
 
+6. Click trash icon to clear search history.
 
 ## Technolgies
 Following technologies are used for this application.
 
-* HTML, CSS, [Bootstrap](https://getbootstrap.com/), JavaScript, [jQuery](https://jquery.com/)
-, [Moment.js](https://momentjs.com/)
+* HTML, CSS, [Bootstrap](https://getbootstrap.com/), JavaScript, [jQuery](https://jquery.com/), [Moment.js](https://momentjs.com/)
 
 
 ## Credit 
