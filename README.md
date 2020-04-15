@@ -1,4 +1,4 @@
-# Weather Forecast 
+# Weather Forecast :sunny: :cloud: :umbrella: :zap: :snowman:
 This is a weather dashboard application with search functionality to find current weather conditions and the future weather outlook for multiple cities.
 
 ## Live demo
