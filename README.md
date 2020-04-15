@@ -11,8 +11,7 @@ https://tak-9.github.io/weather/
 ## Usage
 1. Open the above URL in your web browswer. 
 
-2. The browswer displays the pop-up window requesting geolocation permission. 
-Once the geolocation permission is granted, the weather forcast for the current location is displayed.
+2. The browswer requests permission to get your current location. Click **Allow Location Access** to display the weather forecast for your location.
  <img src="./readme/geolocation.png" width="400px">
 
 3. Enter a city name in the text field and click icon (or press enter key) to search.  
