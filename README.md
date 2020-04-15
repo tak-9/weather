@@ -1,11 +1,11 @@
 # Weather Forecast 
 This is a weather dashboard application with search functionality to find current weather conditions and the future weather outlook for multiple cities.
 
-
-<img src="screencapture.png" width="850px">
-
 ## Live demo
 https://tak-9.github.io/weather/
+
+
+<img src="screencapture.png" width="850px">
 
 
 ## Usage
