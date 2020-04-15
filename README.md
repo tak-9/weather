@@ -5,7 +5,7 @@ This is a weather dashboard application with search functionality to find curren
 https://tak-9.github.io/weather/
 
 
-<img src="screencapture.png" width="850px">
+<img src="./readme/screencapture.png" width="850px">
 
 
 ## Usage
@@ -13,6 +13,7 @@ https://tak-9.github.io/weather/
 
 2. The browswer displays the pop-up window requesting geolocation permission. 
 Once the geolocation permission is granted, the weather forcast for the current location is displayed.
+<img src="./readme/geolocation.png" width="200px">
 
 3. Enter a city name in the text field and click icon (or press enter key) to search.  
    Error message is displaed when the city is not found.
